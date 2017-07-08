@@ -49,4 +49,15 @@ describe('VendingMachineService', () => {
       expect(currentDisplayFromVendingMachine).toEqual('$0.25');
     });
   });
+
+  describe('A dime and a quarter is inserted', function () {
+    beforeEach(function () {
+      subject.insert('DIME');
+      subject.insert('QUARTER');
+    });
+
+    it('will display "$0.35"', function () {
+      expect(currentDisplayFromVendingMachine).toEqual('$0.35');
+    });
+  });
 });
