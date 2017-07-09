@@ -66,6 +66,11 @@ export class VendingMachineService {
     }
   }
 
+  returnInsertedCoins() {
+    this.returnRemainingChange();
+    this.display.next('INSERT COIN');
+  }
+
   private recalculateDisplay(amount: number) {
     this.currentAmount += amount;
     this.display.next(this.getDisplayFriendlyValue(this.currentAmount));

@@ -300,6 +300,27 @@ describe('VendingMachineService', () => {
     });
   });
 
+  describe('when coins are inserted and and the coin return is pressed', () => {
+    beforeEach(() => {
+      subject.insertCoin('QUARTER');
+      subject.insertCoin('QUARTER');
+      subject.insertCoin('DIME');
+      subject.insertCoin('NICKEL');
+      subject.returnInsertedCoins();
+    });
+
+    it('places the excess money in the coin return', () => {
+      expect(currentCoinReturnContents.length).toEqual(4);
+      expect(currentCoinReturnContents.filter(coin => coin === 'QUARTER').length).toEqual(2);
+      expect(currentCoinReturnContents.filter(coin => coin === 'DIME').length).toEqual(1);
+      expect(currentCoinReturnContents.filter(coin => coin === 'NICKEL').length).toEqual(1);
+    });
+
+    it('displays "INSERT COIN"', () => {
+      expect(messagesDisplayed[0]).toEqual('INSERT COIN');
+    });
+  });
+
   function initializeAndSetupAllOfTheSpies() {
     messagesDisplayed = [];
     currentCoinReturnContents = [];
