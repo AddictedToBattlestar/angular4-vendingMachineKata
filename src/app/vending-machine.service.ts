@@ -39,15 +39,15 @@ export class VendingMachineService {
         this.recalculateDisplay(25);
         break;
       default:
-        this.addInsertedCoinToCoinReturn(insertedObject);
+        this.addCoinToCoinReturn(insertedObject);
     }
   }
 
   selectProduct(desiredProduct: String) {
     if (this.currentAmount >= 100) {
-      const dispenserToManipulate: Array<String> = this.dispenser.value;
-      dispenserToManipulate.push('COLA');
-      this.dispenser.next(dispenserToManipulate);
+      this.addProductToDispenser('COLA');
+      this.currentAmount -= 100;
+      this.returnRemainingChange();
       this.display.next('THANK YOU');
     } else {
       this.display.next('PRICE $1.00');
@@ -59,9 +59,33 @@ export class VendingMachineService {
     this.display.next('$' + (this.currentAmount / 100).toFixed(2));
   }
 
-  private addInsertedCoinToCoinReturn(coinToReturn: String) {
+  private addCoinToCoinReturn(coinToReturn: String) {
     const coinReturnToManipulate: Array<String> = this.coinReturn.value;
     coinReturnToManipulate.push(coinToReturn);
     this.coinReturn.next(coinReturnToManipulate);
+  }
+
+  private addProductToDispenser(productToDispense: String) {
+    const dispenserToManipulate: Array<String> = this.dispenser.value;
+    dispenserToManipulate.push(productToDispense);
+    this.dispenser.next(dispenserToManipulate);
+  }
+
+  private returnRemainingChange() {
+    while (this.currentAmount !== 0) {
+      for (let x = 0; x < Math.floor(this.currentAmount / 25); x++) {
+        this.addCoinToCoinReturn('QUARTER');
+        this.currentAmount -= 25;
+      }
+      const numberOfDimes = Math.floor(this.currentAmount / 10); // Why can't I move this inline to the conditional below?
+      for (let y = 0; y < numberOfDimes; y++) {
+        this.addCoinToCoinReturn('DIME');
+        this.currentAmount -= 10;
+      }
+      for (let z = 0; z < Math.floor(this.currentAmount / 5); z++) {
+        this.addCoinToCoinReturn('NICKEL');
+        this.currentAmount -= 5;
+      }
+    }
   }
 }

@@ -133,4 +133,59 @@ describe('VendingMachineService', () => {
       expect(currentDispenserContents[0]).toEqual('COLA');
     });
   });
+
+  describe('a cola is selected with too much money inserted', function () {
+    beforeEach(() => {
+      subject.insert('QUARTER');
+      subject.insert('QUARTER');
+      subject.insert('QUARTER');
+      subject.insert('QUARTER');
+      subject.insert('DIME');
+      subject.selectProduct('COLA');
+    });
+
+    it('displays a thank you message', () => {
+      expect(currentDisplayFromVendingMachine).toEqual('THANK YOU');
+    });
+
+    it('dispenses a cola', () => {
+      expect(currentDispenserContents.length).toEqual(1);
+      expect(currentDispenserContents[0]).toEqual('COLA');
+    });
+
+    it('places the excess money in the coin return', () => {
+      expect(currentCoinReturnContents.length).toEqual(1);
+      expect(currentCoinReturnContents[0]).toEqual('DIME');
+    });
+  });
+
+  describe('a cola is selected with too much money inserted (2nd variation of money inserted)', function () {
+    beforeEach(() => {
+      subject.insert('QUARTER');
+      subject.insert('QUARTER');
+      subject.insert('QUARTER');
+      subject.insert('QUARTER');
+      subject.insert('QUARTER');
+      subject.insert('DIME');
+      subject.insert('DIME');
+      subject.insert('NICKEL');
+      subject.selectProduct('COLA');
+    });
+
+    it('displays a thank you message', () => {
+      expect(currentDisplayFromVendingMachine).toEqual('THANK YOU');
+    });
+
+    it('dispenses a cola', () => {
+      expect(currentDispenserContents.length).toEqual(1);
+      expect(currentDispenserContents[0]).toEqual('COLA');
+    });
+
+    it('places the excess money in the coin return', () => {
+      expect(currentCoinReturnContents.length).toEqual(4);
+      expect(currentCoinReturnContents.filter(coin => coin === 'QUARTER').length).toEqual(1);
+      expect(currentCoinReturnContents.filter(coin => coin === 'DIME').length).toEqual(2);
+      expect(currentCoinReturnContents.filter(coin => coin === 'NICKEL').length).toEqual(1);
+    });
+  });
 });
