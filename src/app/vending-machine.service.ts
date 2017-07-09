@@ -5,11 +5,13 @@ import { BehaviorSubject } from 'rxjs/Rx';
 export class VendingMachineService {
   private display: BehaviorSubject<String>;
   private coinReturn: BehaviorSubject<Array<String>>;
+  private dispenser: BehaviorSubject<Array<String>>;
   private currentAmount: number;
 
   constructor() {
     this.display = new BehaviorSubject('INSERT COIN');
     this.coinReturn = new BehaviorSubject([]);
+    this.dispenser = new BehaviorSubject([]);
     this.currentAmount = 0;
   }
 
@@ -19,6 +21,10 @@ export class VendingMachineService {
 
   getCoinReturnObservable() {
     return this.coinReturn.asObservable();
+  }
+
+  getDispenserObservable() {
+    return this.dispenser.asObservable();
   }
 
   insert(insertedObject: String) {

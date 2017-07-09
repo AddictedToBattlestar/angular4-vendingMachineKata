@@ -4,6 +4,7 @@ import { VendingMachineService } from './vending-machine.service';
 describe('VendingMachineService', () => {
   let currentDisplayFromVendingMachine: String;
   let currentCoinReturn: Array<String>;
+  let currentDispenserContents: Array<String>;
   let subject: VendingMachineService;
 
   beforeEach(() => {
@@ -16,6 +17,7 @@ describe('VendingMachineService', () => {
     subject = vendingMachineService;
     subject.getDisplayObservable().subscribe(val => currentDisplayFromVendingMachine = val);
     subject.getCoinReturnObservable().subscribe(coinReturned => currentCoinReturn = coinReturned);
+    subject.getDispenserObservable().subscribe(val => currentDispenserContents = val);
   }));
 
   it('displays INSERT COIN', () => {
@@ -89,6 +91,27 @@ describe('VendingMachineService', () => {
 
     it('displays the price of cola', () => {
       expect(currentDisplayFromVendingMachine).toEqual('PRICE $1.00');
+    });
+
+    it('does not dispense anything', () => {
+      expect(currentDispenserContents.length).toEqual(0);
+    });
+  });
+
+  describe('a cola is selected with only 75 cents inserted', function () {
+    beforeEach(() => {
+      subject.insert('QUARTER');
+      subject.insert('QUARTER');
+      subject.insert('QUARTER');
+      subject.selectProduct('COLA');
+    });
+
+    it('displays the price of cola', () => {
+      expect(currentDisplayFromVendingMachine).toEqual('PRICE $1.00');
+    });
+
+    it('does not dispense anything', () => {
+      expect(currentDispenserContents.length).toEqual(0);
     });
   });
 });
