@@ -7,6 +7,11 @@ export class VendingMachineService {
   private coinReturn: BehaviorSubject<Array<String>>;
   private dispenser: BehaviorSubject<Array<String>>;
   private currentAmount: number;
+  private acceptableCoins: { [index: string]: number } = {
+    'QUARTER': 25,
+    'DIME': 10,
+    'NICKEL': 5
+  };
 
   constructor() {
     this.display = new BehaviorSubject('INSERT COIN');
@@ -73,19 +78,22 @@ export class VendingMachineService {
 
   private returnRemainingChange() {
     while (this.currentAmount !== 0) {
-      for (let x = 0; x < Math.floor(this.currentAmount / 25); x++) {
-        this.addCoinToCoinReturn('QUARTER');
-        this.currentAmount -= 25;
-      }
-      const numberOfDimes = Math.floor(this.currentAmount / 10); // Why can't I move this inline to the conditional below?
-      for (let y = 0; y < numberOfDimes; y++) {
-        this.addCoinToCoinReturn('DIME');
-        this.currentAmount -= 10;
-      }
-      for (let z = 0; z < Math.floor(this.currentAmount / 5); z++) {
-        this.addCoinToCoinReturn('NICKEL');
-        this.currentAmount -= 5;
-      }
+      this.returnCoinsOfTheGivenDemonination('QUARTER');
+      this.returnCoinsOfTheGivenDemonination('DIME');
+      this.returnCoinsOfTheGivenDemonination('NICKEL');
     }
+  }
+
+  private returnCoinsOfTheGivenDemonination(coinType: string) {
+    const coinValue = this.identifyCoinValue(coinType);
+    const numberOfCoinsToReturn = Math.floor(this.currentAmount / coinValue);
+    for (let x = 0; x < numberOfCoinsToReturn; x++) {
+      this.addCoinToCoinReturn(coinType);
+      this.currentAmount -= coinValue;
+    }
+  }
+
+  private identifyCoinValue(coinType: string) {
+    return this.acceptableCoins[coinType];
   }
 }
