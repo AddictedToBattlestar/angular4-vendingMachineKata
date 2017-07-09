@@ -3,6 +3,7 @@ import { VendingMachineService } from './vending-machine.service';
 
 describe('VendingMachineService', () => {
   let currentDisplayFromVendingMachine: String;
+  let currentCoinReturn: Array<String>;
   let subject: VendingMachineService;
 
   beforeEach(() => {
@@ -14,10 +15,15 @@ describe('VendingMachineService', () => {
   beforeEach(inject([VendingMachineService], (vendingMachineService: VendingMachineService) => {
     subject = vendingMachineService;
     subject.getDisplayObservable().subscribe(val => currentDisplayFromVendingMachine = val);
+    subject.getCoinReturnObservable().subscribe(coinReturned => currentCoinReturn = coinReturned);
   }));
 
   it('displays INSERT COIN', function () {
     expect(currentDisplayFromVendingMachine).toEqual('INSERT COIN');
+  });
+
+  it('has an empty coin return', function () {
+    expect(currentCoinReturn.length).toBe(0);
   });
 
   describe('A nickel is inserted', function () {
@@ -58,6 +64,21 @@ describe('VendingMachineService', () => {
 
     it('will display "$0.35"', function () {
       expect(currentDisplayFromVendingMachine).toEqual('$0.35');
+    });
+  });
+
+  describe('An invalid coin (penny) is inserted', function () {
+    beforeEach(function () {
+      subject.insert('PENNY');
+    });
+
+    it('still displays INSERT COIN', function () {
+      expect(currentDisplayFromVendingMachine).toEqual('INSERT COIN');
+    });
+
+    it('placed the invalid coin in the coin return', function () {
+      expect(currentCoinReturn.length).toEqual(1);
+      expect(currentCoinReturn[0]).toEqual('PENNY');
     });
   });
 });
