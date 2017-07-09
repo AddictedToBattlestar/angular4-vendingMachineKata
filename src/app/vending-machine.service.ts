@@ -32,7 +32,7 @@ export class VendingMachineService {
     return this.dispenser.asObservable();
   }
 
-  insert(insertedObject: String) {
+  insertCoin(insertedObject: String) {
     switch (insertedObject) {
       case 'NICKEL':
         this.recalculateDisplay(5);
@@ -77,11 +77,9 @@ export class VendingMachineService {
   }
 
   private returnRemainingChange() {
-    if (this.currentAmount !== 0) {
-      this.returnCoinsOfTheGivenDemonination('QUARTER');
-      this.returnCoinsOfTheGivenDemonination('DIME');
-      this.returnCoinsOfTheGivenDemonination('NICKEL');
-    }
+    this.returnCoinsOfTheGivenDemonination('QUARTER');
+    this.returnCoinsOfTheGivenDemonination('DIME');
+    this.returnCoinsOfTheGivenDemonination('NICKEL');
   }
 
   private returnCoinsOfTheGivenDemonination(coinType: string) {

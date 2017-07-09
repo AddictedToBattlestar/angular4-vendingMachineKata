@@ -30,7 +30,7 @@ describe('VendingMachineService', () => {
 
   describe('A nickel is inserted', () => {
     beforeEach(() => {
-      subject.insert('NICKEL');
+      subject.insertCoin('NICKEL');
     });
 
     it('will display "$0.05"', () => {
@@ -40,7 +40,7 @@ describe('VendingMachineService', () => {
 
   describe('A dime is inserted', () => {
     beforeEach(() => {
-      subject.insert('DIME');
+      subject.insertCoin('DIME');
     });
 
     it('will display "$0.10"', () => {
@@ -50,7 +50,7 @@ describe('VendingMachineService', () => {
 
   describe('A quarter is inserted', () => {
     beforeEach(() => {
-      subject.insert('QUARTER');
+      subject.insertCoin('QUARTER');
     });
 
     it('will display "$0.25"', () => {
@@ -60,8 +60,8 @@ describe('VendingMachineService', () => {
 
   describe('A dime and a quarter is inserted', () => {
     beforeEach(() => {
-      subject.insert('DIME');
-      subject.insert('QUARTER');
+      subject.insertCoin('DIME');
+      subject.insertCoin('QUARTER');
     });
 
     it('will display "$0.35"', () => {
@@ -71,7 +71,7 @@ describe('VendingMachineService', () => {
 
   describe('An invalid coin (penny) is inserted', () => {
     beforeEach(() => {
-      subject.insert('PENNY');
+      subject.insertCoin('PENNY');
     });
 
     it('still displays INSERT COIN', () => {
@@ -100,9 +100,9 @@ describe('VendingMachineService', () => {
 
   describe('a cola is selected with only 75 cents inserted', function () {
     beforeEach(() => {
-      subject.insert('QUARTER');
-      subject.insert('QUARTER');
-      subject.insert('QUARTER');
+      subject.insertCoin('QUARTER');
+      subject.insertCoin('QUARTER');
+      subject.insertCoin('QUARTER');
       subject.selectProduct('COLA');
     });
 
@@ -117,10 +117,10 @@ describe('VendingMachineService', () => {
 
   describe('a cola is selected with enough money inserted', function () {
     beforeEach(() => {
-      subject.insert('QUARTER');
-      subject.insert('QUARTER');
-      subject.insert('QUARTER');
-      subject.insert('QUARTER');
+      subject.insertCoin('QUARTER');
+      subject.insertCoin('QUARTER');
+      subject.insertCoin('QUARTER');
+      subject.insertCoin('QUARTER');
       subject.selectProduct('COLA');
     });
 
@@ -136,11 +136,11 @@ describe('VendingMachineService', () => {
 
   describe('a cola is selected with too much money inserted', function () {
     beforeEach(() => {
-      subject.insert('QUARTER');
-      subject.insert('QUARTER');
-      subject.insert('QUARTER');
-      subject.insert('QUARTER');
-      subject.insert('DIME');
+      subject.insertCoin('QUARTER');
+      subject.insertCoin('QUARTER');
+      subject.insertCoin('QUARTER');
+      subject.insertCoin('QUARTER');
+      subject.insertCoin('DIME');
       subject.selectProduct('COLA');
     });
 
@@ -161,14 +161,14 @@ describe('VendingMachineService', () => {
 
   describe('a cola is selected with too much money inserted (2nd variation of money inserted)', function () {
     beforeEach(() => {
-      subject.insert('QUARTER');
-      subject.insert('QUARTER');
-      subject.insert('QUARTER');
-      subject.insert('QUARTER');
-      subject.insert('QUARTER');
-      subject.insert('DIME');
-      subject.insert('DIME');
-      subject.insert('NICKEL');
+      subject.insertCoin('QUARTER');
+      subject.insertCoin('QUARTER');
+      subject.insertCoin('QUARTER');
+      subject.insertCoin('QUARTER');
+      subject.insertCoin('QUARTER');
+      subject.insertCoin('DIME');
+      subject.insertCoin('DIME');
+      subject.insertCoin('NICKEL');
       subject.selectProduct('COLA');
     });
 
@@ -189,13 +189,13 @@ describe('VendingMachineService', () => {
 
   describe('a cola is selected with too much money inserted (3rd variation of money inserted)', function () {
     beforeEach(() => {
-      subject.insert('QUARTER');
-      subject.insert('QUARTER');
-      subject.insert('QUARTER');
-      subject.insert('QUARTER');
-      subject.insert('QUARTER');
-      subject.insert('DIME');
-      subject.insert('NICKEL');
+      subject.insertCoin('QUARTER');
+      subject.insertCoin('QUARTER');
+      subject.insertCoin('QUARTER');
+      subject.insertCoin('QUARTER');
+      subject.insertCoin('QUARTER');
+      subject.insertCoin('DIME');
+      subject.insertCoin('NICKEL');
       subject.selectProduct('COLA');
     });
 
