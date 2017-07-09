@@ -77,7 +77,7 @@ export class VendingMachineService {
   }
 
   private returnRemainingChange() {
-    while (this.currentAmount !== 0) {
+    if (this.currentAmount !== 0) {
       this.returnCoinsOfTheGivenDemonination('QUARTER');
       this.returnCoinsOfTheGivenDemonination('DIME');
       this.returnCoinsOfTheGivenDemonination('NICKEL');
