@@ -37,6 +37,10 @@ export class VendingMachineService {
     }
   }
 
+  selectProduct(desiredProduct: String) {
+    this.display.next('PRICE $1.00');
+  }
+
   private recalculateDisplay(amount: number) {
     this.currentAmount += amount;
     this.display.next('$' + (this.currentAmount / 100).toFixed(2));
