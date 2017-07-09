@@ -44,7 +44,14 @@ export class VendingMachineService {
   }
 
   selectProduct(desiredProduct: String) {
-    this.display.next('PRICE $1.00');
+    if (this.currentAmount >= 100) {
+      const dispenserToManipulate: Array<String> = this.dispenser.value;
+      dispenserToManipulate.push('COLA');
+      this.dispenser.next(dispenserToManipulate);
+      this.display.next('THANK YOU');
+    } else {
+      this.display.next('PRICE $1.00');
+    }
   }
 
   private recalculateDisplay(amount: number) {

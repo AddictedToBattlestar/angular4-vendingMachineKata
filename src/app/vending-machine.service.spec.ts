@@ -3,7 +3,7 @@ import { VendingMachineService } from './vending-machine.service';
 
 describe('VendingMachineService', () => {
   let currentDisplayFromVendingMachine: String;
-  let currentCoinReturn: Array<String>;
+  let currentCoinReturnContents: Array<String>;
   let currentDispenserContents: Array<String>;
   let subject: VendingMachineService;
 
@@ -16,7 +16,7 @@ describe('VendingMachineService', () => {
   beforeEach(inject([VendingMachineService], (vendingMachineService: VendingMachineService) => {
     subject = vendingMachineService;
     subject.getDisplayObservable().subscribe(val => currentDisplayFromVendingMachine = val);
-    subject.getCoinReturnObservable().subscribe(coinReturned => currentCoinReturn = coinReturned);
+    subject.getCoinReturnObservable().subscribe(coinReturned => currentCoinReturnContents = coinReturned);
     subject.getDispenserObservable().subscribe(val => currentDispenserContents = val);
   }));
 
@@ -25,7 +25,7 @@ describe('VendingMachineService', () => {
   });
 
   it('has an empty coin return', () => {
-    expect(currentCoinReturn.length).toBe(0);
+    expect(currentCoinReturnContents.length).toBe(0);
   });
 
   describe('A nickel is inserted', () => {
@@ -79,8 +79,8 @@ describe('VendingMachineService', () => {
     });
 
     it('placed the invalid coin in the coin return', () => {
-      expect(currentCoinReturn.length).toEqual(1);
-      expect(currentCoinReturn[0]).toEqual('PENNY');
+      expect(currentCoinReturnContents.length).toEqual(1);
+      expect(currentCoinReturnContents[0]).toEqual('PENNY');
     });
   });
 
@@ -112,6 +112,25 @@ describe('VendingMachineService', () => {
 
     it('does not dispense anything', () => {
       expect(currentDispenserContents.length).toEqual(0);
+    });
+  });
+
+  describe('a cola is selected with enough money inserted', function () {
+    beforeEach(() => {
+      subject.insert('QUARTER');
+      subject.insert('QUARTER');
+      subject.insert('QUARTER');
+      subject.insert('QUARTER');
+      subject.selectProduct('COLA');
+    });
+
+    it('displays a thank you message', () => {
+      expect(currentDisplayFromVendingMachine).toEqual('THANK YOU');
+    });
+
+    it('dispenses a cola', () => {
+      expect(currentDispenserContents.length).toEqual(1);
+      expect(currentDispenserContents[0]).toEqual('COLA');
     });
   });
 });
