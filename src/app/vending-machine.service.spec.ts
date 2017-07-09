@@ -2,7 +2,7 @@ import { TestBed, inject } from '@angular/core/testing';
 import { VendingMachineService } from './vending-machine.service';
 
 describe('VendingMachineService', () => {
-  let currentDisplayFromVendingMachine: String;
+  let messagesDisplayed: Array<String>;
   let currentCoinReturnContents: Array<String>;
   let currentDispenserContents: Array<String>;
   let subject: VendingMachineService;
@@ -15,13 +15,11 @@ describe('VendingMachineService', () => {
 
   beforeEach(inject([VendingMachineService], (vendingMachineService: VendingMachineService) => {
     subject = vendingMachineService;
-    subject.getDisplayObservable().subscribe(val => currentDisplayFromVendingMachine = val);
-    subject.getCoinReturnObservable().subscribe(coinReturned => currentCoinReturnContents = coinReturned);
-    subject.getDispenserObservable().subscribe(val => currentDispenserContents = val);
+    initializeAndSetupAllOfTheSpies();
   }));
 
-  it('displays INSERT COIN', () => {
-    expect(currentDisplayFromVendingMachine).toEqual('INSERT COIN');
+  it('displays "INSERT COIN"', () => {
+    expect(messagesDisplayed[0]).toEqual('INSERT COIN');
   });
 
   it('has an empty coin return', () => {
@@ -34,7 +32,7 @@ describe('VendingMachineService', () => {
     });
 
     it('will display "$0.05"', () => {
-      expect(currentDisplayFromVendingMachine).toEqual('$0.05');
+      expect(messagesDisplayed[1]).toEqual('$0.05');
     });
   });
 
@@ -44,7 +42,7 @@ describe('VendingMachineService', () => {
     });
 
     it('will display "$0.10"', () => {
-      expect(currentDisplayFromVendingMachine).toEqual('$0.10');
+      expect(messagesDisplayed[1]).toEqual('$0.10');
     });
   });
 
@@ -54,7 +52,7 @@ describe('VendingMachineService', () => {
     });
 
     it('will display "$0.25"', () => {
-      expect(currentDisplayFromVendingMachine).toEqual('$0.25');
+      expect(messagesDisplayed[1]).toEqual('$0.25');
     });
   });
 
@@ -65,7 +63,7 @@ describe('VendingMachineService', () => {
     });
 
     it('will display "$0.35"', () => {
-      expect(currentDisplayFromVendingMachine).toEqual('$0.35');
+      expect(messagesDisplayed[2]).toEqual('$0.35');
     });
   });
 
@@ -75,7 +73,7 @@ describe('VendingMachineService', () => {
     });
 
     it('still displays INSERT COIN', () => {
-      expect(currentDisplayFromVendingMachine).toEqual('INSERT COIN');
+      expect(messagesDisplayed[0]).toEqual('INSERT COIN');
     });
 
     it('placed the invalid coin in the coin return', () => {
@@ -90,7 +88,7 @@ describe('VendingMachineService', () => {
     });
 
     it('displays the price of cola', () => {
-      expect(currentDisplayFromVendingMachine).toEqual('PRICE $1.00');
+      expect(messagesDisplayed[1]).toEqual('PRICE $1.00');
     });
 
     it('does not dispense anything', () => {
@@ -107,7 +105,7 @@ describe('VendingMachineService', () => {
     });
 
     it('displays the price of cola', () => {
-      expect(currentDisplayFromVendingMachine).toEqual('PRICE $1.00');
+      expect(messagesDisplayed[4]).toEqual('PRICE $1.00');
     });
 
     it('does not dispense anything', () => {
@@ -125,7 +123,7 @@ describe('VendingMachineService', () => {
     });
 
     it('displays a thank you message', () => {
-      expect(currentDisplayFromVendingMachine).toEqual('THANK YOU');
+      expect(messagesDisplayed[5]).toEqual('THANK YOU');
     });
 
     it('dispenses a cola', () => {
@@ -145,7 +143,7 @@ describe('VendingMachineService', () => {
     });
 
     it('displays a thank you message', () => {
-      expect(currentDisplayFromVendingMachine).toEqual('THANK YOU');
+      expect(messagesDisplayed[6]).toEqual('THANK YOU');
     });
 
     it('dispenses a cola', () => {
@@ -173,7 +171,7 @@ describe('VendingMachineService', () => {
     });
 
     it('displays a thank you message', () => {
-      expect(currentDisplayFromVendingMachine).toEqual('THANK YOU');
+      expect(messagesDisplayed[9]).toEqual('THANK YOU');
     });
 
     it('dispenses a cola', () => {
@@ -200,7 +198,7 @@ describe('VendingMachineService', () => {
     });
 
     it('displays a thank you message', () => {
-      expect(currentDisplayFromVendingMachine).toEqual('THANK YOU');
+      expect(messagesDisplayed[8]).toEqual('THANK YOU');
     });
 
     it('dispenses a cola', () => {
@@ -215,4 +213,32 @@ describe('VendingMachineService', () => {
       expect(currentCoinReturnContents.filter(coin => coin === 'NICKEL').length).toEqual(1);
     });
   });
+
+  describe('once the machine display says thank you', () => {
+    beforeEach(() => {
+      subject.insertCoin('QUARTER');
+      subject.insertCoin('QUARTER');
+      subject.insertCoin('QUARTER');
+      subject.insertCoin('QUARTER');
+      subject.selectProduct('COLA');
+    });
+
+    it('displays a thank you message', () => {
+      expect(messagesDisplayed[5]).toEqual('THANK YOU');
+    });
+
+    it('will then prompt "INSERT COIN" afterwards', () => {
+      expect(messagesDisplayed[6]).toEqual('INSERT COIN');
+    });
+  });
+
+  function initializeAndSetupAllOfTheSpies() {
+    messagesDisplayed = [];
+    currentCoinReturnContents = [];
+    currentDispenserContents = [];
+
+    subject.getDisplayObservable().subscribe(val => messagesDisplayed.push(val));
+    subject.getCoinReturnObservable().subscribe(coinReturned => currentCoinReturnContents = coinReturned);
+    subject.getDispenserObservable().subscribe(val => currentDispenserContents = val);
+  }
 });

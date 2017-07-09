@@ -54,6 +54,7 @@ export class VendingMachineService {
       this.currentAmount -= 100;
       this.returnRemainingChange();
       this.display.next('THANK YOU');
+      this.display.next('INSERT COIN');
     } else {
       this.display.next('PRICE $1.00');
     }
