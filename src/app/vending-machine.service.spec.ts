@@ -96,7 +96,7 @@ describe('VendingMachineService', () => {
     });
   });
 
-  describe('a cola is selected with only 75 cents inserted', function () {
+  describe('a cola is selected with too little money inserted', function () {
     beforeEach(() => {
       subject.insertCoin('QUARTER');
       subject.insertCoin('QUARTER');
@@ -211,6 +211,74 @@ describe('VendingMachineService', () => {
       expect(currentCoinReturnContents.filter(coin => coin === 'QUARTER').length).toEqual(1);
       expect(currentCoinReturnContents.filter(coin => coin === 'DIME').length).toEqual(1);
       expect(currentCoinReturnContents.filter(coin => coin === 'NICKEL').length).toEqual(1);
+    });
+  });
+
+  describe('a chips is selected with too little money inserted', function () {
+    beforeEach(() => {
+      subject.insertCoin('QUARTER');
+      subject.selectProduct('CHIPS');
+    });
+
+    it('displays the price of chips', () => {
+      expect(messagesDisplayed[2]).toEqual('PRICE $0.50');
+    });
+
+    it('does not dispense anything', () => {
+      expect(currentDispenserContents.length).toEqual(0);
+    });
+  });
+
+  describe('a chips is selected with enough money inserted', function () {
+    beforeEach(() => {
+      subject.insertCoin('QUARTER');
+      subject.insertCoin('QUARTER');
+      subject.selectProduct('CHIPS');
+    });
+
+    it('displays a thank you message', () => {
+      expect(messagesDisplayed[3]).toEqual('THANK YOU');
+    });
+
+    it('dispenses a chips', () => {
+      expect(currentDispenserContents.length).toEqual(1);
+      expect(currentDispenserContents[0]).toEqual('CHIPS');
+    });
+  });
+
+  describe('a candy is selected with too little money inserted', function () {
+    beforeEach(() => {
+      subject.insertCoin('QUARTER');
+      subject.insertCoin('QUARTER');
+      subject.insertCoin('DIME');
+      subject.selectProduct('CANDY');
+    });
+
+    it('displays the price of chips', () => {
+      expect(messagesDisplayed[4]).toEqual('PRICE $0.65');
+    });
+
+    it('does not dispense anything', () => {
+      expect(currentDispenserContents.length).toEqual(0);
+    });
+  });
+
+  describe('a candy is selected with enough money inserted', function () {
+    beforeEach(() => {
+      subject.insertCoin('QUARTER');
+      subject.insertCoin('QUARTER');
+      subject.insertCoin('DIME');
+      subject.insertCoin('NICKEL');
+      subject.selectProduct('CANDY');
+    });
+
+    it('displays a thank you message', () => {
+      expect(messagesDisplayed[5]).toEqual('THANK YOU');
+    });
+
+    it('dispenses a chips', () => {
+      expect(currentDispenserContents.length).toEqual(1);
+      expect(currentDispenserContents[0]).toEqual('CANDY');
     });
   });
 

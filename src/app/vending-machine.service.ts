@@ -12,6 +12,11 @@ export class VendingMachineService {
     'DIME': 10,
     'NICKEL': 5
   };
+  private productPrices: { [index: string]: number } = {
+    'COLA': 100,
+    'CHIPS': 50,
+    'CANDY': 65
+  };
 
   constructor() {
     this.display = new BehaviorSubject('INSERT COIN');
@@ -48,21 +53,26 @@ export class VendingMachineService {
     }
   }
 
-  selectProduct(desiredProduct: String) {
-    if (this.currentAmount >= 100) {
-      this.addProductToDispenser('COLA');
-      this.currentAmount -= 100;
+  selectProduct(desiredProduct: string) {
+    const productPrice: number = this.productPrices[desiredProduct];
+    if (this.currentAmount >= productPrice) {
+      this.addProductToDispenser(desiredProduct);
+      this.currentAmount -= productPrice;
       this.returnRemainingChange();
       this.display.next('THANK YOU');
       this.display.next('INSERT COIN');
     } else {
-      this.display.next('PRICE $1.00');
+      this.display.next('PRICE ' + this.getDisplayFriendlyValue(productPrice));
     }
   }
 
   private recalculateDisplay(amount: number) {
     this.currentAmount += amount;
-    this.display.next('$' + (this.currentAmount / 100).toFixed(2));
+    this.display.next(this.getDisplayFriendlyValue(this.currentAmount));
+  }
+
+  private getDisplayFriendlyValue(amount: number) {
+    return '$' + (amount / 100).toFixed(2)
   }
 
   private addCoinToCoinReturn(coinToReturn: String) {
