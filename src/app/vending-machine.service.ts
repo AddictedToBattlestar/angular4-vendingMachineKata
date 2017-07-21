@@ -38,7 +38,7 @@ export class VendingMachineService {
   }
 
   insertCoin(insertedObject: string) {
-    let coinValueInserted = this.acceptableCoins[insertedObject];
+    const coinValueInserted = this.acceptableCoins[insertedObject];
     if (coinValueInserted) {
       this.recalculateDisplay(coinValueInserted);
     } else {
@@ -47,7 +47,7 @@ export class VendingMachineService {
   }
 
   selectProduct(desiredProduct: string) {
-    const productPrice: number = this.productPrices[desiredProduct];
+    const productPrice = this.productPrices[desiredProduct];
     if (this.currentAmount >= productPrice) {
       this.addProductToDispenser(desiredProduct);
       this.currentAmount -= productPrice;
@@ -86,12 +86,12 @@ export class VendingMachineService {
   }
 
   private returnRemainingChange() {
-    this.returnCoinsOfTheGivenDemonination('QUARTER');
-    this.returnCoinsOfTheGivenDemonination('DIME');
-    this.returnCoinsOfTheGivenDemonination('NICKEL');
+    this.returnCoinsOfTheGivenDenomination('QUARTER');
+    this.returnCoinsOfTheGivenDenomination('DIME');
+    this.returnCoinsOfTheGivenDenomination('NICKEL');
   }
 
-  private returnCoinsOfTheGivenDemonination(coinType: string) {
+  private returnCoinsOfTheGivenDenomination(coinType: string) {
     const coinValue = this.identifyCoinValue(coinType);
     const numberOfCoinsToReturn = Math.floor(this.currentAmount / coinValue);
     for (let x = 0; x < numberOfCoinsToReturn; x++) {
