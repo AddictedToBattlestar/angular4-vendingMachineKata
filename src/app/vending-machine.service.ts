@@ -37,19 +37,12 @@ export class VendingMachineService {
     return this.dispenser.asObservable();
   }
 
-  insertCoin(insertedObject: String) {
-    switch (insertedObject) {
-      case 'NICKEL':
-        this.recalculateDisplay(5);
-        break;
-      case 'DIME':
-        this.recalculateDisplay(10);
-        break;
-      case 'QUARTER':
-        this.recalculateDisplay(25);
-        break;
-      default:
-        this.addCoinToCoinReturn(insertedObject);
+  insertCoin(insertedObject: string) {
+    let coinValueInserted = this.acceptableCoins[insertedObject];
+    if (coinValueInserted) {
+      this.recalculateDisplay(coinValueInserted);
+    } else {
+      this.addCoinToCoinReturn(insertedObject);
     }
   }
 
