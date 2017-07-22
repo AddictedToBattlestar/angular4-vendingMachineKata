@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
+import { VendingMachineInterface } from './vending-machine.interface'
 
 @Injectable()
-export class VendingMachineService {
+export class VendingMachineService implements VendingMachineInterface {
   private display: BehaviorSubject<String>;
   private coinReturn: BehaviorSubject<Array<String>>;
   private dispenser: BehaviorSubject<Array<String>>;
@@ -25,19 +27,19 @@ export class VendingMachineService {
     this.currentAmount = 0;
   }
 
-  getDisplayObservable() {
+  getDisplayObservable(): Observable<String> {
     return this.display.asObservable();
   }
 
-  getCoinReturnObservable() {
+  getCoinReturnObservable(): Observable<Array<String>> {
     return this.coinReturn.asObservable();
   }
 
-  getDispenserObservable() {
+  getDispenserObservable(): Observable<Array<String>> {
     return this.dispenser.asObservable();
   }
 
-  insertCoin(insertedObject: string) {
+  insertCoin(insertedObject: string): void {
     const coinValueInserted = this.acceptableCoins[insertedObject];
     if (coinValueInserted) {
       this.recalculateDisplay(coinValueInserted);
@@ -46,7 +48,7 @@ export class VendingMachineService {
     }
   }
 
-  selectProduct(desiredProduct: string) {
+  selectProduct(desiredProduct: string): void {
     const productPrice = this.productPrices[desiredProduct];
     if (this.currentAmount >= productPrice) {
       this.addProductToDispenser(desiredProduct);
@@ -59,7 +61,7 @@ export class VendingMachineService {
     }
   }
 
-  returnInsertedCoins() {
+  returnInsertedCoins(): void {
     this.returnRemainingChange();
     this.display.next('INSERT COIN');
   }
