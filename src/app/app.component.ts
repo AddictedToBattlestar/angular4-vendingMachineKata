@@ -9,7 +9,6 @@ import { Observable } from 'rxjs/Observable';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  title = 'app';
   vendingMachineService: VendingMachineService;
 
   constructor(vendingMachineServiceProvided: VendingMachineService) {

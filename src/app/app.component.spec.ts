@@ -28,17 +28,7 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   }));
 
-  it(`should have as title 'app'`, async(() => {
-    expect(app.title).toEqual('app');
-  }));
-
-  it('should render title in a h1 tag', async(() => {
-    fixture.detectChanges();
-    const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('h1').textContent).toContain('Welcome to app!!');
-  }));
-
-  it('should make the getCoinReturnObservable from the VendingMachineService accessible', async(() => {
+  it('should make the VendingMachineService accessible', async(() => {
     fixture.detectChanges();
     expect(app.vendingMachineService.insertCoinSpy).not.toHaveBeenCalled();
     expect(app.vendingMachineService.selectProductSpy).not.toHaveBeenCalled();
