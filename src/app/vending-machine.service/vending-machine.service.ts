@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/Rx';
 import { Observable } from 'rxjs/Observable';
-import { VendingMachineInterface } from './vending-machine.interface'
 
 @Injectable()
-export class VendingMachineService implements VendingMachineInterface {
+export class VendingMachineService {
   private display: BehaviorSubject<String>;
   private coinReturn: BehaviorSubject<Array<String>>;
   private dispenser: BehaviorSubject<Array<String>>;

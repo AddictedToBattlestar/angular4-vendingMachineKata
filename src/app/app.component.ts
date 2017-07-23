@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { VendingMachineInterface } from './vending-machine.service/vending-machine.interface'
 import { VendingMachineService } from './vending-machine.service/vending-machine.service'
 import { Observable } from 'rxjs/Observable';
 
@@ -9,9 +8,17 @@ import { Observable } from 'rxjs/Observable';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  vendingMachineService: VendingMachineService;
+  private vendingMachineService: VendingMachineService;
+  coinReturn: Observable<Array<String>>;
+  display: Observable<String>;
 
   constructor(vendingMachineServiceProvided: VendingMachineService) {
     this.vendingMachineService = vendingMachineServiceProvided;
+    this.coinReturn = vendingMachineServiceProvided.getCoinReturnObservable();
+    this.display = vendingMachineServiceProvided.getDisplayObservable();
+  }
+
+  insertCoin(coinInserted: string): void {
+    this.vendingMachineService.insertCoin(coinInserted);
   }
 }

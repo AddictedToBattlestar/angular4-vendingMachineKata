@@ -1,23 +1,27 @@
 import { TestBed, async } from '@angular/core/testing';
+import { ComponentFixture } from '@angular/core/testing';
 import { Observable } from 'rxjs/Observable';
+import {instance, mock, reset, when, verify} from 'ts-mockito';
 
 import { VendingMachineService } from './vending-machine.service/vending-machine.service';
-import { VendingMachineServiceMock } from './vending-machine.service/vending-machine.mock';
-import { CommonHelpers } from './common-helpers';
 import { AppComponent } from './app.component';
-import { ComponentFixture } from '@angular/core/testing';
 
 describe('AppComponent', () => {
   let fixture: ComponentFixture<AppComponent>;
   let app: any;
+  let vendingMachineServiceMock: VendingMachineService;
+  let vendingMachineServiceMockInstance: VendingMachineService;
+  let fakeCoinReturnObservable: Observable<Array<String>>;
+  let fakeDisplayObservable: Observable<String>;
 
   beforeEach(async(() => {
+    setupMocks();
     TestBed.configureTestingModule({
       declarations: [
         AppComponent
       ],
       providers: [
-        { provide: VendingMachineService, useClass: VendingMachineServiceMock }
+        { provide: VendingMachineService, useValue: vendingMachineServiceMockInstance }
       ]
     }).compileComponents();
     fixture = TestBed.createComponent(AppComponent);
@@ -28,10 +32,32 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   }));
 
-  it('should make the VendingMachineService accessible', async(() => {
+  it('should make the display from the service accessible', async(() => {
     fixture.detectChanges();
-    expect(app.vendingMachineService.insertCoinSpy).not.toHaveBeenCalled();
-    expect(app.vendingMachineService.selectProductSpy).not.toHaveBeenCalled();
-    expect(app.vendingMachineService.returnInsertedCoinsSpy).not.toHaveBeenCalled();
+    expect(app.display).toEqual(fakeDisplayObservable);
   }));
+
+  it('should make the coin return from the service accessible', async(() => {
+    fixture.detectChanges();
+    expect(app.coinReturn).toEqual(fakeCoinReturnObservable);
+  }));
+
+  describe('when a coin is inserted', () => {
+    beforeEach(() => {
+      app.insertCoin('foo');
+    });
+
+    it('tells the VendingMachineService about the inserted coin', () => {
+      verify(vendingMachineServiceMock.insertCoin('foo')).once();
+    });
+  });
+
+  function setupMocks() {
+    vendingMachineServiceMock = mock(VendingMachineService);
+    fakeCoinReturnObservable = new Observable<Array<String>>();
+    fakeDisplayObservable = new Observable<String>();
+    when(vendingMachineServiceMock.getCoinReturnObservable()).thenReturn(fakeCoinReturnObservable);
+    when(vendingMachineServiceMock.getDisplayObservable()).thenReturn(fakeDisplayObservable);
+    vendingMachineServiceMockInstance = instance(vendingMachineServiceMock);
+  }
 });
