@@ -1,7 +1,7 @@
 import { TestBed, async } from '@angular/core/testing';
 import { ComponentFixture } from '@angular/core/testing';
 import { BehaviorSubject, Observable } from 'rxjs/Rx';
-import {instance, mock, reset, when, verify} from 'ts-mockito';
+import { instance, mock, reset, when, verify } from 'ts-mockito';
 
 import { VendingMachineService } from './vending-machine.service/vending-machine.service';
 import { AppComponent } from './app.component';
@@ -55,7 +55,7 @@ describe('AppComponent', () => {
     });
   });
 
-    describe('when the service sends an update for the coin return', () => {
+  describe('when the service sends an update for the coin return', () => {
     let fakeCoinReturnListing: Array<String>;
     beforeEach(() => {
       fakeCoinReturnListing = new Array<String>();
