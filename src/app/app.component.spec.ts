@@ -1,6 +1,6 @@
 import { TestBed, async } from '@angular/core/testing';
 import { ComponentFixture } from '@angular/core/testing';
-import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject, Observable } from 'rxjs/Rx';
 import {instance, mock, reset, when, verify} from 'ts-mockito';
 
 import { VendingMachineService } from './vending-machine.service/vending-machine.service';
@@ -11,7 +11,9 @@ describe('AppComponent', () => {
   let app: any;
   let vendingMachineServiceMock: VendingMachineService;
   let vendingMachineServiceMockInstance: VendingMachineService;
+  let fakeCoinReturnBehaviorSubject: BehaviorSubject<Array<String>>;
   let fakeCoinReturnObservable: Observable<Array<String>>;
+  let fakeDisplayBehaviorSubject: BehaviorSubject<String>;
   let fakeDisplayObservable: Observable<String>;
 
   beforeEach(async(() => {
@@ -32,16 +34,6 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   }));
 
-  it('should make the display from the service accessible', async(() => {
-    fixture.detectChanges();
-    expect(app.display).toEqual(fakeDisplayObservable);
-  }));
-
-  it('should make the coin return from the service accessible', async(() => {
-    fixture.detectChanges();
-    expect(app.coinReturn).toEqual(fakeCoinReturnObservable);
-  }));
-
   describe('when a coin is inserted', () => {
     beforeEach(() => {
       app.insertCoin('foo');
@@ -52,10 +44,37 @@ describe('AppComponent', () => {
     });
   });
 
+  describe('when the service sends an update for the display', () => {
+    beforeEach(() => {
+      fakeDisplayBehaviorSubject.next('fake display update');
+      fixture.detectChanges();
+    });
+
+    it('shows this update on the display', () => {
+      expect(app.display).toEqual('fake display update');
+    });
+  });
+
+    describe('when the service sends an update for the coin return', () => {
+    let fakeCoinReturnListing: Array<String>;
+    beforeEach(() => {
+      fakeCoinReturnListing = new Array<String>();
+      fakeCoinReturnListing.push('fakeCoin');
+      fakeCoinReturnBehaviorSubject.next(fakeCoinReturnListing);
+      fixture.detectChanges();
+    });
+
+    it('the coin return registers the correct content', () => {
+      expect(app.coinReturn).toEqual(fakeCoinReturnListing);
+    });
+  });
+
   function setupMocks() {
     vendingMachineServiceMock = mock(VendingMachineService);
-    fakeCoinReturnObservable = new Observable<Array<String>>();
-    fakeDisplayObservable = new Observable<String>();
+    fakeCoinReturnBehaviorSubject = new BehaviorSubject<Array<String>>([]);
+    fakeCoinReturnObservable = fakeCoinReturnBehaviorSubject.asObservable();
+    fakeDisplayBehaviorSubject = new BehaviorSubject<String>('');
+    fakeDisplayObservable = fakeDisplayBehaviorSubject.asObservable();
     when(vendingMachineServiceMock.getCoinReturnObservable()).thenReturn(fakeCoinReturnObservable);
     when(vendingMachineServiceMock.getDisplayObservable()).thenReturn(fakeDisplayObservable);
     vendingMachineServiceMockInstance = instance(vendingMachineServiceMock);

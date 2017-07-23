@@ -9,13 +9,13 @@ import { Observable } from 'rxjs/Observable';
 })
 export class AppComponent {
   private vendingMachineService: VendingMachineService;
-  coinReturn: Observable<Array<String>>;
-  display: Observable<String>;
+  coinReturn: Array<String>;
+  display: String;
 
   constructor(vendingMachineServiceProvided: VendingMachineService) {
     this.vendingMachineService = vendingMachineServiceProvided;
-    this.coinReturn = vendingMachineServiceProvided.getCoinReturnObservable();
-    this.display = vendingMachineServiceProvided.getDisplayObservable();
+    vendingMachineServiceProvided.getDisplayObservable().subscribe((value) => this.display = value);
+    vendingMachineServiceProvided.getCoinReturnObservable().subscribe((value) => this.coinReturn = value);
   }
 
   insertCoin(coinInserted: string): void {
