@@ -5,10 +5,10 @@ import { Observable } from 'rxjs/Observable';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  private vendingMachineService: VendingMachineService;
+  vendingMachineService: VendingMachineService;
   coinReturn: Array<String>;
   display: String;
 
