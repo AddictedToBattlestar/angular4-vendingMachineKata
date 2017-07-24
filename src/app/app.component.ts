@@ -8,7 +8,7 @@ import { Observable } from 'rxjs/Observable';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  vendingMachineService: VendingMachineService;
+  private vendingMachineService: VendingMachineService;
   coinReturn: Array<String>;
   display: String;
 
