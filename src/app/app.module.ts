@@ -5,12 +5,14 @@ import { VendingMachineService } from './vending-machine.service/vending-machine
 import { AppComponent } from './app.component';
 import { CoinSlotComponent } from './coin-slot/coin-slot.component';
 import { ProductSelectionComponent } from './product-selection/product-selection.component';
+import { DisplayComponent } from './display/display.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CoinSlotComponent,
-    ProductSelectionComponent
+    ProductSelectionComponent,
+    DisplayComponent
   ],
   imports: [
     BrowserModule

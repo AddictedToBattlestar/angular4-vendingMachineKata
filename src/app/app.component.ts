@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { VendingMachineService } from './vending-machine.service/vending-machine.service'
-import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-root',
