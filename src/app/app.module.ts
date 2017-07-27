@@ -4,11 +4,13 @@ import { NgModule } from '@angular/core';
 import { VendingMachineService } from './vending-machine.service/vending-machine.service'
 import { AppComponent } from './app.component';
 import { CoinSlotComponent } from './coin-slot/coin-slot.component';
+import { ProductSelectionComponent } from './product-selection/product-selection.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    CoinSlotComponent
+    CoinSlotComponent,
+    ProductSelectionComponent
   ],
   imports: [
     BrowserModule

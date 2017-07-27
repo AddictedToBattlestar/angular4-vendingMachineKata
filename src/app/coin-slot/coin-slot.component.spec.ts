@@ -17,7 +17,7 @@ describe('CoinSlotComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CoinSlotComponent);
     component = fixture.componentInstance;
-    this.onCoinInsertedSpy = new Array<string>();
+    this.onCoinInsertedSpy = new Array<String>();
     component.onCoinInserted.subscribe((value) => this.onCoinInsertedSpy.push(value));
     fixture.detectChanges();
   });

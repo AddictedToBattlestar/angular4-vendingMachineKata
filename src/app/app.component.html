@@ -6,3 +6,4 @@
 </div>
 <div class="vending-machine-display">{{display}}</div>
 <app-coin-slot (onCoinInserted)="onCoinInserted($event)"></app-coin-slot>
+<app-product-selection (onProductSelected)="vendingMachineService.selectProduct($event)"></app-product-selection>

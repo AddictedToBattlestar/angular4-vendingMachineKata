@@ -6,6 +6,7 @@ import { instance, mock, reset, when, verify } from 'ts-mockito';
 import { VendingMachineService } from './vending-machine.service/vending-machine.service';
 import { AppComponent } from './app.component';
 import { CoinSlotComponent } from './coin-slot/coin-slot.component';
+import { ProductSelectionComponent } from './product-selection/product-selection.component';
 
 describe('AppComponent', () => {
   let fixture: ComponentFixture<AppComponent>;
@@ -22,7 +23,8 @@ describe('AppComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         AppComponent,
-        CoinSlotComponent
+        CoinSlotComponent,
+        ProductSelectionComponent
       ],
       providers: [
         { provide: VendingMachineService, useValue: vendingMachineServiceMockInstance }

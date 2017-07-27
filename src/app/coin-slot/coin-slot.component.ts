@@ -6,12 +6,12 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./coin-slot.component.css']
 })
 export class CoinSlotComponent implements OnInit {
-  @Output() onCoinInserted = new EventEmitter<string>();
+  @Output() onCoinInserted = new EventEmitter<String>();
   constructor() { }
 
   ngOnInit() { }
 
-  insertCoin(coinInserted: string): void {
+  insertCoin(coinInserted: String): void {
     this.onCoinInserted.emit(coinInserted);
   }
 
