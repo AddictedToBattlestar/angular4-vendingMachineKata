@@ -18,7 +18,7 @@ export class AppComponent {
     vendingMachineServiceProvided.getCoinReturnObservable().subscribe((value) => this.coinReturn = value);
   }
 
-  insertCoin(coinInserted: string): void {
+  onCoinInserted(coinInserted: string): void {
     this.vendingMachineService.insertCoin(coinInserted);
   }
 }
