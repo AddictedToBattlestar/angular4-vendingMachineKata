@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { CoinSlotComponent } from './coin-slot/coin-slot.component';
 import { ProductSelectionComponent } from './product-selection/product-selection.component';
 import { DisplayComponent } from './display/display.component';
+import { DispenserComponent } from './dispenser/dispenser.component';
 
 describe('AppComponent', () => {
   let fixture: ComponentFixture<AppComponent>;
@@ -18,6 +19,8 @@ describe('AppComponent', () => {
   let fakeCoinReturnObservable: Observable<Array<String>>;
   let fakeDisplayBehaviorSubject: BehaviorSubject<String>;
   let fakeDisplayObservable: Observable<String>;
+  let fakeDispenserBehaviorSubject: BehaviorSubject<Array<String>>;
+  let fakeDispenserObservable: Observable<Array<String>>;
 
   beforeEach(async(() => {
     setupMocks();
@@ -26,7 +29,8 @@ describe('AppComponent', () => {
         AppComponent,
         CoinSlotComponent,
         ProductSelectionComponent,
-        DisplayComponent
+        DisplayComponent,
+        DispenserComponent
       ],
       providers: [
         { provide: VendingMachineService, useValue: vendingMachineServiceMockInstance }
@@ -79,10 +83,15 @@ describe('AppComponent', () => {
     vendingMachineServiceMock = mock(VendingMachineService);
     fakeCoinReturnBehaviorSubject = new BehaviorSubject<Array<String>>([]);
     fakeCoinReturnObservable = fakeCoinReturnBehaviorSubject.asObservable();
+    when(vendingMachineServiceMock.getCoinReturnObservable()).thenReturn(fakeCoinReturnObservable);
+    vendingMachineServiceMockInstance = instance(vendingMachineServiceMock);
+
+    // These are still needed as the template calls them and the tests will throw errors unless mocked.
     fakeDisplayBehaviorSubject = new BehaviorSubject<String>('');
     fakeDisplayObservable = fakeDisplayBehaviorSubject.asObservable();
-    when(vendingMachineServiceMock.getCoinReturnObservable()).thenReturn(fakeCoinReturnObservable);
+    fakeDispenserBehaviorSubject = new BehaviorSubject<Array<String>>([]);
+    fakeDispenserObservable = fakeDispenserBehaviorSubject.asObservable();
     when(vendingMachineServiceMock.getDisplayObservable()).thenReturn(fakeDisplayObservable);
-    vendingMachineServiceMockInstance = instance(vendingMachineServiceMock);
+    when(vendingMachineServiceMock.getDispenserObservable()).thenReturn(fakeDispenserObservable);
   }
 });

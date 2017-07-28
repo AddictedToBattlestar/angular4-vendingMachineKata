@@ -8,3 +8,4 @@
 <app-display [displayObservable]="vendingMachineService.getDisplayObservable()"></app-display>
 <app-coin-slot (onCoinInserted)="onCoinInserted($event)"></app-coin-slot>
 <app-product-selection (onProductSelected)="vendingMachineService.selectProduct($event)"></app-product-selection>
+<app-dispenser [dispenserObservable]="vendingMachineService.getDispenserObservable()"></app-dispenser>
