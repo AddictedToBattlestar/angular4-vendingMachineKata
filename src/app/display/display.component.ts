@@ -16,4 +16,6 @@ export class DisplayComponent implements OnInit {
     this.displayObservable.subscribe((value) => this.currentDisplayMessage = value);
   }
 
+  // TODO: need to delay the updates to the display in the event of concussive changes.
+  //       how do I mock window.setInterval()?
 }
