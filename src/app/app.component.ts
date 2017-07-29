@@ -4,7 +4,7 @@ import { VendingMachineService } from './vending-machine.service/vending-machine
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
   private vendingMachineService: VendingMachineService;

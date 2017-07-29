@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 @Component({
   selector: 'app-coin-return',
   templateUrl: './coin-return.component.html',
-  styleUrls: ['./coin-return.component.css']
+  styleUrls: ['./coin-return.component.scss']
 })
 export class CoinReturnComponent implements OnInit {
   @Input() coinReturnObservable: Observable<Array<String>>;
