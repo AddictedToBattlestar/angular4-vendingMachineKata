@@ -9,6 +9,7 @@ import { CoinSlotComponent } from './coin-slot/coin-slot.component';
 import { ProductSelectionComponent } from './product-selection/product-selection.component';
 import { DisplayComponent } from './display/display.component';
 import { DispenserComponent } from './dispenser/dispenser.component';
+import { CoinReturnComponent } from './coin-return/coin-return.component';
 
 describe('AppComponent', () => {
   let fixture: ComponentFixture<AppComponent>;
@@ -30,7 +31,8 @@ describe('AppComponent', () => {
         CoinSlotComponent,
         ProductSelectionComponent,
         DisplayComponent,
-        DispenserComponent
+        DispenserComponent,
+        CoinReturnComponent
       ],
       providers: [
         { provide: VendingMachineService, useValue: vendingMachineServiceMockInstance }
@@ -54,36 +56,8 @@ describe('AppComponent', () => {
     });
   });
 
-  describe('when the service sends an update for the display', () => {
-    beforeEach(() => {
-      fakeDisplayBehaviorSubject.next('fake display update');
-      fixture.detectChanges();
-    });
-
-    it('shows this update on the display', () => {
-      expect(app.display).toEqual('fake display update');
-    });
-  });
-
-  describe('when the service sends an update for the coin return', () => {
-    let fakeCoinReturnListing: Array<String>;
-    beforeEach(() => {
-      fakeCoinReturnListing = new Array<String>();
-      fakeCoinReturnListing.push('fakeCoin');
-      fakeCoinReturnBehaviorSubject.next(fakeCoinReturnListing);
-      fixture.detectChanges();
-    });
-
-    it('the coin return registers the correct content', () => {
-      expect(app.coinReturn).toEqual(fakeCoinReturnListing);
-    });
-  });
-
   function setupMocks() {
     vendingMachineServiceMock = mock(VendingMachineService);
-    fakeCoinReturnBehaviorSubject = new BehaviorSubject<Array<String>>([]);
-    fakeCoinReturnObservable = fakeCoinReturnBehaviorSubject.asObservable();
-    when(vendingMachineServiceMock.getCoinReturnObservable()).thenReturn(fakeCoinReturnObservable);
     vendingMachineServiceMockInstance = instance(vendingMachineServiceMock);
 
     // These are still needed as the template calls them and the tests will throw errors unless mocked.
@@ -91,7 +65,10 @@ describe('AppComponent', () => {
     fakeDisplayObservable = fakeDisplayBehaviorSubject.asObservable();
     fakeDispenserBehaviorSubject = new BehaviorSubject<Array<String>>([]);
     fakeDispenserObservable = fakeDispenserBehaviorSubject.asObservable();
+    fakeCoinReturnBehaviorSubject = new BehaviorSubject<Array<String>>([]);
+    fakeCoinReturnObservable = fakeCoinReturnBehaviorSubject.asObservable();
     when(vendingMachineServiceMock.getDisplayObservable()).thenReturn(fakeDisplayObservable);
     when(vendingMachineServiceMock.getDispenserObservable()).thenReturn(fakeDispenserObservable);
+    when(vendingMachineServiceMock.getCoinReturnObservable()).thenReturn(fakeCoinReturnObservable);
   }
 });

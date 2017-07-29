@@ -28,15 +28,15 @@ describe('DispenserComponent', () => {
   });
 
   describe('when items are placed in the dispenser', () => {
-    const fakeitems = ['fakeItem1', 'fakeItem2'];
+    const fakeItems = ['fakeItem1', 'fakeItem2'];
 
     beforeEach(() => {
-      mockDispenser.next(fakeitems);
+      mockDispenser.next(fakeItems);
       fixture.detectChanges();
     });
 
     it('shows them in the dispenser', () => {
-      expect(component.dispenserItems).toEqual(fakeitems);
+      expect(component.dispenserItems).toEqual(fakeItems);
     });
   });
 });

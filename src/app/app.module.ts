@@ -7,6 +7,7 @@ import { CoinSlotComponent } from './coin-slot/coin-slot.component';
 import { ProductSelectionComponent } from './product-selection/product-selection.component';
 import { DisplayComponent } from './display/display.component';
 import { DispenserComponent } from './dispenser/dispenser.component';
+import { CoinReturnComponent } from './coin-return/coin-return.component';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import { DispenserComponent } from './dispenser/dispenser.component';
     CoinSlotComponent,
     ProductSelectionComponent,
     DisplayComponent,
-    DispenserComponent
+    DispenserComponent,
+    CoinReturnComponent
   ],
   imports: [
     BrowserModule
