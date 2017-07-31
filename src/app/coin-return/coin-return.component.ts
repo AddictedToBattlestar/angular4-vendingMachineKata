@@ -7,12 +7,13 @@ import { Observable } from 'rxjs/Observable';
   styleUrls: ['./coin-return.component.scss']
 })
 export class CoinReturnComponent implements OnInit {
-  @Input() coinReturnObservable: Observable<Array<String>>;
+  @Input() coinReturnObservable: Observable<String>;
   coinsReturned: Array<String>;
   constructor() { }
 
   ngOnInit() {
-    this.coinReturnObservable.subscribe((value) => this.coinsReturned = value);
+    this.coinsReturned = [];
+    this.coinReturnObservable.subscribe((value) => this.coinsReturned.push(value));
   }
 
 }

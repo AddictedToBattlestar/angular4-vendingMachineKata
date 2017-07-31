@@ -7,12 +7,13 @@ import { Observable } from 'rxjs/Observable';
   styleUrls: ['./dispenser.component.scss']
 })
 export class DispenserComponent implements OnInit {
-  @Input() dispenserObservable: Observable<Array<String>>;
+  @Input() dispenserObservable: Observable<String>;
   dispenserItems: Array<String>;
   constructor() { }
 
   ngOnInit() {
-    this.dispenserObservable.subscribe((value) => this.dispenserItems = value);
+    this.dispenserItems = [];
+    this.dispenserObservable.subscribe((value) => this.dispenserItems.push(value));
   }
 
 }
