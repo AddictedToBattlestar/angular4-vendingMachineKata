@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs/Rx';
+import { Subject, BehaviorSubject } from 'rxjs/Rx';
 import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class VendingMachineService {
   private display: BehaviorSubject<String>;
-  private coinReturn: BehaviorSubject<Array<String>>;
-  private dispenser: BehaviorSubject<Array<String>>;
+  private coinReturn: Subject<String>;
+  private dispenser: Subject<String>;
   private currentAmount: number;
   private acceptableCoins: { [index: string]: number } = {
     'QUARTER': 25,
@@ -20,9 +20,9 @@ export class VendingMachineService {
   };
 
   constructor() {
-    this.display = new BehaviorSubject('INSERT COIN');
-    this.coinReturn = new BehaviorSubject([]);
-    this.dispenser = new BehaviorSubject([]);
+    this.display = new BehaviorSubject('INSERT COIN');  // new BehaviorSubject('INSERT COIN');
+    this.coinReturn = new Subject();
+    this.dispenser = new Subject();
     this.currentAmount = 0;
   }
 
@@ -30,11 +30,11 @@ export class VendingMachineService {
     return this.display.asObservable();
   }
 
-  getCoinReturnObservable(): Observable<Array<String>> {
+  getCoinReturnObservable(): Observable<String> {
     return this.coinReturn.asObservable();
   }
 
-  getDispenserObservable(): Observable<Array<String>> {
+  getDispenserObservable(): Observable<String> {
     return this.dispenser.asObservable();
   }
 
@@ -75,15 +75,11 @@ export class VendingMachineService {
   }
 
   private addCoinToCoinReturn(coinToReturn: String) {
-    const coinReturnToManipulate: Array<String> = this.coinReturn.value;
-    coinReturnToManipulate.push(coinToReturn);
-    this.coinReturn.next(coinReturnToManipulate);
+    this.coinReturn.next(coinToReturn);
   }
 
   private addProductToDispenser(productToDispense: String) {
-    const dispenserToManipulate: Array<String> = this.dispenser.value;
-    dispenserToManipulate.push(productToDispense);
-    this.dispenser.next(dispenserToManipulate);
+    this.dispenser.next(productToDispense);
   }
 
   private returnRemainingChange() {

@@ -1,6 +1,6 @@
 import { TestBed, async } from '@angular/core/testing';
 import { ComponentFixture } from '@angular/core/testing';
-import { BehaviorSubject, Observable } from 'rxjs/Rx';
+import { BehaviorSubject, Observable, Subject } from 'rxjs/Rx';
 import { instance, mock, reset, when, verify } from 'ts-mockito';
 
 import { VendingMachineService } from './vending-machine.service/vending-machine.service';
@@ -16,12 +16,12 @@ describe('AppComponent', () => {
   let app: any;
   let vendingMachineServiceMock: VendingMachineService;
   let vendingMachineServiceMockInstance: VendingMachineService;
-  let fakeCoinReturnBehaviorSubject: BehaviorSubject<Array<String>>;
-  let fakeCoinReturnObservable: Observable<Array<String>>;
+  let fakeCoinReturnBehaviorSubject: Subject<String>;
+  let fakeCoinReturnObservable: Observable<String>;
   let fakeDisplayBehaviorSubject: BehaviorSubject<String>;
   let fakeDisplayObservable: Observable<String>;
-  let fakeDispenserBehaviorSubject: BehaviorSubject<Array<String>>;
-  let fakeDispenserObservable: Observable<Array<String>>;
+  let fakeDispenserBehaviorSubject: Subject<String>;
+  let fakeDispenserObservable: Observable<String>;
 
   beforeEach(async(() => {
     setupMocks();
@@ -63,9 +63,9 @@ describe('AppComponent', () => {
     // These are still needed as the template calls them and the tests will throw errors unless mocked.
     fakeDisplayBehaviorSubject = new BehaviorSubject<String>('');
     fakeDisplayObservable = fakeDisplayBehaviorSubject.asObservable();
-    fakeDispenserBehaviorSubject = new BehaviorSubject<Array<String>>([]);
+    fakeDispenserBehaviorSubject = new Subject<String>();
     fakeDispenserObservable = fakeDispenserBehaviorSubject.asObservable();
-    fakeCoinReturnBehaviorSubject = new BehaviorSubject<Array<String>>([]);
+    fakeCoinReturnBehaviorSubject = new Subject<String>();
     fakeCoinReturnObservable = fakeCoinReturnBehaviorSubject.asObservable();
     when(vendingMachineServiceMock.getDisplayObservable()).thenReturn(fakeDisplayObservable);
     when(vendingMachineServiceMock.getDispenserObservable()).thenReturn(fakeDispenserObservable);

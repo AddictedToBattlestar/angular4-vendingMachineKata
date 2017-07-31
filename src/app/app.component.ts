@@ -14,7 +14,6 @@ export class AppComponent {
   constructor(vendingMachineServiceProvided: VendingMachineService) {
     this.vendingMachineService = vendingMachineServiceProvided;
     vendingMachineServiceProvided.getDisplayObservable().subscribe((value) => this.display = value);
-    vendingMachineServiceProvided.getCoinReturnObservable().subscribe((value) => this.coinReturn = value);
   }
 
   onCoinInserted(coinInserted: string): void {
