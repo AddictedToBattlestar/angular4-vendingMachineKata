@@ -20,7 +20,7 @@ export class VendingMachineService {
   };
 
   constructor() {
-    this.display = new BehaviorSubject('INSERT COIN');  // new BehaviorSubject('INSERT COIN');
+    this.display = new BehaviorSubject('INSERT COIN');
     this.coinReturn = new Subject();
     this.dispenser = new Subject();
     this.currentAmount = 0;

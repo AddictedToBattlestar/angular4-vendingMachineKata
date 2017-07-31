@@ -13,7 +13,7 @@ export class CoinReturnComponent implements OnInit {
 
   ngOnInit() {
     this.coinsReturned = [];
-    this.coinReturnObservable.subscribe((value) => this.coinsReturned.push(value));
+    this.coinReturnObservable.subscribe(value => this.coinsReturned.push(value));
   }
 
 }

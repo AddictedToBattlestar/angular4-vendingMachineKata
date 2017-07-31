@@ -326,8 +326,8 @@ describe('VendingMachineService', () => {
     currentCoinReturnContents = [];
     currentDispenserContents = [];
 
-    subject.getDisplayObservable().subscribe(val => messagesDisplayed.push(val));
-    subject.getCoinReturnObservable().subscribe(val => currentCoinReturnContents.push(val));
-    subject.getDispenserObservable().subscribe(val => currentDispenserContents.push(val));
+    subject.getDisplayObservable().subscribe(value => messagesDisplayed.push(value));
+    subject.getCoinReturnObservable().subscribe(value => currentCoinReturnContents.push(value));
+    subject.getDispenserObservable().subscribe(value => currentDispenserContents.push(value));
   }
 });

@@ -13,7 +13,7 @@ export class DispenserComponent implements OnInit {
 
   ngOnInit() {
     this.dispenserItems = [];
-    this.dispenserObservable.subscribe((value) => this.dispenserItems.push(value));
+    this.dispenserObservable.subscribe(value => this.dispenserItems.push(value));
   }
 
 }
