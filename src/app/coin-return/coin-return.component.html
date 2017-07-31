@@ -1,8 +1,8 @@
 <div class="coin-return-container">
-<h3>Coin Return</h3>
+  <h3>Coin Return<span *ngIf="coinsReturned.length === 0"> (empty)</span></h3>
   <div>
-  <ul>
-    <li *ngFor="let coin of coinsReturned">{{coin}}</li>
-  </ul>
-</div>
+    <ul>
+      <li *ngFor="let coin of coinsReturned">{{coin}}</li>
+    </ul>
+  </div>
 </div>

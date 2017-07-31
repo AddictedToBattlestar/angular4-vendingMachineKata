@@ -1,5 +1,5 @@
 <div class="dispenser-container">
-<h3>Dispenser</h3>
+<h3>Dispenser<span *ngIf="dispenserItems.length === 0"> (empty)</span></h3>
   <div>
   <ul>
     <li *ngFor="let item of dispenserItems">{{item}}</li>

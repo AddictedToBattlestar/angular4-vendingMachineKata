@@ -13,7 +13,10 @@ export class DisplayComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    this.displayObservable.subscribe((value) => this.currentDisplayMessage = value);
+    this.displayObservable.subscribe((value) => {
+      this.currentDisplayMessage = value;
+      console.log('display update: ' + value);
+    });
   }
 
   // TODO: need to delay the updates to the display in the event of concussive changes.
