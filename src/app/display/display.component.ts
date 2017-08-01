@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef, AfterViewChecked } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
 @Component({
@@ -6,7 +6,7 @@ import { Observable } from 'rxjs/Observable';
   templateUrl: './display.component.html',
   styleUrls: ['./display.component.scss']
 })
-export class DisplayComponent implements OnInit {
+export class DisplayComponent implements AfterViewChecked, OnInit {
   @ViewChild('scrollMe') private myScrollContainer: ElementRef;
   @Input() displayObservable: Observable<String>;
   messages: Array<String>;
@@ -25,9 +25,6 @@ export class DisplayComponent implements OnInit {
   ngAfterViewChecked() {
     this.scrollToBottom();
   }
-
-  // TODO: need to delay the updates to the display in the event of concussive changes.
-  //       how do I mock window.setInterval()?
 
   scrollToBottom(): void {
     try {
