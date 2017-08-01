@@ -50,11 +50,7 @@ export class VendingMachineService {
   selectProduct(desiredProduct: string): void {
     const productPrice = this.productPrices[desiredProduct];
     if (this.currentAmount >= productPrice) {
-      this.addProductToDispenser(desiredProduct);
-      this.currentAmount -= productPrice;
-      this.returnRemainingChange();
-      this.display.next('THANK YOU');
-      this.display.next('INSERT COIN');
+      this.dispenseProduct(desiredProduct, productPrice);
     } else {
       this.display.next('PRICE ' + this.getDisplayFriendlyValue(productPrice));
     }
@@ -62,6 +58,14 @@ export class VendingMachineService {
 
   returnInsertedCoins(): void {
     this.returnRemainingChange();
+    this.display.next('INSERT COIN');
+  }
+
+  private dispenseProduct(desiredProduct: string, productPrice: number): void {
+    this.addProductToDispenser(desiredProduct);
+    this.currentAmount -= productPrice;
+    this.returnRemainingChange();
+    this.display.next('THANK YOU');
     this.display.next('INSERT COIN');
   }
 
