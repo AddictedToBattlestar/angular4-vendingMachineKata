@@ -1,0 +1,15 @@
+.display-container {
+    .message-display {
+        border: 1px solid lightgray;
+        padding: .3rem;
+        max-height: 3.3rem;
+        overflow-y: auto;
+        div {
+            padding-left: 0.1rem;
+            color: lightgray;
+        }
+        div:last-child{
+            color: black;
+        }
+    }
+}

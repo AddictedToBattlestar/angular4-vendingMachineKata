@@ -27,14 +27,17 @@ describe('DisplayComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('when informed if a display update', () => {
+  describe('when informed if display updates', () => {
+    const fakeDisplayMessages: Array<String> = ['fakeInitialMessage', 'fakeDisplayMessageUpdate1', 'fakeDisplayMessageUpdate2'];
+
     beforeEach(() => {
-      mockDisplay.next('fakeDisplayMessageUpdate');
+      mockDisplay.next(fakeDisplayMessages[1]);
+      mockDisplay.next(fakeDisplayMessages[2]);
       fixture.detectChanges();
     });
 
-    it('updates the current message on the display', () => {
-      expect(component.currentDisplayMessage).toEqual('fakeDisplayMessageUpdate');
+    it('updates the current messages on the display', () => {
+      expect(component.messages).toEqual(fakeDisplayMessages);
     });
   });
 });
